@@ -2,107 +2,15 @@ const gpsSpeedHTML = document.getElementById("gpsSpeedChart");
 const brakeHTML = document.getElementById("brakeChart");
 const throttleHTML = document.getElementById("throttleChart");
 
+const gpsSpeedText = document.getElementById("gpsSpeedText");
+const brakeText = document.getElementById("brakeText");
+const throttleText = document.getElementById("throttleText");
+
+
 const gpsSpeedHTMLValue = document.getElementById("gpsSpeedValue")
 const RPMHTMLValue = document.getElementById("RPMValue");
 const gearHTMLValue = document.getElementById("gearValue");
 
-
-
-// Creating the numbers in the gpsSpeedChart
-const gpsSpeedChartInsideText = {
-    id: 'gpsSpeedChartInsideText',
-    afterDatasetsDraw(chart, args, plugins) {
-        const { ctx } = chart;
-        const generalData = chart.getDatasetMeta(0).data;
-        const xCenter = generalData[0].x;
-        const yCenter = generalData[0].y;
-        const radius = generalData[0].innerRadius + (generalData[0].outerRadius - generalData[0].innerRadius) / 2;
-        let nextAngle = (generalData[1].endAngle - generalData[0].startAngle) / 6;
-        const sumAngle = 0.06;
-        let xAdjustment = -5;
-        let yAdjustment = 0;
-        for (var i = 0; i < 7; i++) {
-            if (i === 6) {
-                xAdjustment = 5;
-                yAdjustment = -5;
-            }
-            let centerAngle = generalData[0].startAngle + sumAngle + nextAngle * i;
-            let xPos = radius * Math.cos(centerAngle);
-            let yPos = radius * Math.sin(centerAngle);
-            ctx.save();
-
-            ctx.font = 'bold 6px sans-serif';
-            ctx.fillStyle = 'white';
-            ctx.translate(xCenter, yCenter);
-            ctx.fillText(i * 20, xPos + xAdjustment, yPos + yAdjustment);
-            ctx.restore();
-        }
-    }
-}
-
-
-//Creating the "THROTTLE" text
-const throttleText = {
-    id: 'throttleText',
-    afterDatasetsDraw(chart, args, plugins) {
-        const {ctx} = chart;
-        const generalData = chart.getDatasetMeta(0).data;
-        const xCenter = 125;
-        const yCenter = 130;
-        const radius = generalData[0].innerRadius + (generalData[0].outerRadius - generalData[0].innerRadius) / 2;
-
-        const word = "THROTTLE";
-        const constantAngle = (-4.101523742186674 + 0.959931088596881) / 2 - Math.PI / 1.8; // Initial values of generalData[1].startAngle and generalData[1].endAngle
-
-        let spaceBetween = 0;
-        for(var i = 0; i < word.length; i++){
-            const centerAngle = constantAngle + spaceBetween / radius;
-            const xPos = radius * Math.cos(centerAngle);
-            const yPos = radius * Math.sin(centerAngle);
-
-            ctx.font = 'bold 6px sans-serif';
-            ctx.fillStyle = 'white';
-            ctx.save();
-            ctx.translate(xCenter, yCenter);
-            ctx.textAlign = "center"
-            ctx.fillText(word[i], xPos, yPos);
-            ctx.restore();
-            spaceBetween += 7;
-        }
-    }
-} 
-
-//Creating the "BRAKE" text
-const brakeText = {
-    id: 'brakeText',
-    afterDatasetsDraw(chart, args, plugins) {
-        const {ctx} = chart;
-        const generalData = chart.getDatasetMeta(0).data;
-        const xCenter = 125;
-        const yCenter = 130;
-
-        const radius = generalData[0].innerRadius + (generalData[0].outerRadius - generalData[0].innerRadius) / 2;
-        const word = "BRAKE";
-        const constantAngle = (-0.7330382858376184 + 0.8377580409572779) / 2 - Math.PI / 12 // Initial values of generalData[1].startAngle and generalData[1].endAngle
-
-        let spaceBetween = 0;
-        for(var i = 0; i < word.length; i++){
-            const centerAngle = constantAngle + spaceBetween / radius;
-            const xPos = radius * Math.cos(centerAngle);
-            const yPos = radius * Math.sin(centerAngle);
-
-            ctx.font = 'bold 6px sans-serif';
-            ctx.fillStyle = 'white';
-            ctx.save();
-            ctx.translate(xCenter, yCenter);
-            ctx.textAlign = "center"
-            ctx.fillText(word[i], xPos, yPos);
-            ctx.restore();
-            spaceBetween += 7;
-        }
-
-    }
-}
 
 // GPS SPEED CHART
 const gpsSpeedData = {
@@ -123,12 +31,47 @@ const gpsSpeedConfig = {
         cutout: "80%",
         radius: "45%",
         borderColor: "rgb(0,0,0,0)",
-        borderRadius: 10,
         rotation: 210
     },
-    plugins: [gpsSpeedChartInsideText]
 };
 let gpsSpeedChart = new Chart(gpsSpeedHTML, gpsSpeedConfig)
+
+// Creating the numbers in the gpsSpeedChart
+const gpsSpeedTextData = {
+    datasets: [{
+        data: [42.8571429,42.8571429,42.8571429,42.8571429,42.8571429,42.8571429,42.8571429,60],
+        backgroundColor: "rgb(0,0,0,0)",
+        weight: 2,
+    }]
+};
+const gpsSpeedTextConfig = {
+    type: 'doughnut',
+    data: gpsSpeedTextData,
+    options: {
+        cutout: "80%",
+        radius: "45%",
+        borderColor: "rgb(0,0,0,0)",
+        rotation: 210,
+        plugins: {
+            labels: {
+                render: (chart)=> {
+                    if(chart.index == 7){
+                        return;
+                    }
+                    return `${chart.index * 20}`;
+                },
+                arc: true,
+                fontStyle: "bold",
+                fontSize: 6,
+                overlap: false,
+                fontFamily: "Helvetica",
+                textShadow: true,
+                fontColor: "white",
+            }
+        }
+    },
+};
+let gpsSpeedTextChart = new Chart(gpsSpeedText, gpsSpeedTextConfig)
 
 // THROTTLE  CHART
 const throttleData = {
@@ -151,13 +94,48 @@ const throttleConfig = {
         cutout: "80%",
         radius: "30%",
         borderColor: "rgb(0,0,0,0)",
-        borderRadius: 10,
-        rotation: -150,
-
+        rotation: -150
     },
-    plugins: [throttleText]
 };
 let throttleChart = new Chart(throttleHTML, throttleConfig);
+
+//Creating the "THROTTLE" text
+const throttleTextData = {
+    datasets: [{
+        data: [0, 180, 180],
+        backgroundColor: "rgb(0,0,0,0)",
+        weight: 2,
+        borderWidth: 0.5,
+        hoverOffset: 4
+    }]
+};
+const throttleTextConfig = {
+    type: 'doughnut',
+    data: throttleTextData,
+    options: {
+        cutout: "80%",
+        radius: "30%",
+        borderColor: "rgb(0,0,0,0)",
+        rotation: -150,
+        plugins: {
+            labels: {
+                render:(chart)=>{ 
+                    if(chart.index == 1){
+                        return "THROTTLE"
+                    }
+                },
+                arc: true,
+                fontStyle: "bold",
+                fontSize: 7,
+                fontFamily: "Helvetica",
+                textShadow: true,
+                fontColor: "white"
+            },
+            
+        }
+    },
+};
+let throttleTextChart = new Chart(throttleText, throttleTextConfig);
 
 // BRAKE  CHART
 const brakeData = {
@@ -170,7 +148,7 @@ const brakeData = {
         ],
         weight: 2,
         borderWidth: 0.5,
-        hoverOffset: 4
+        hoverOffset: 4,
     }]
 };
 const brakeConfig = {
@@ -180,18 +158,51 @@ const brakeConfig = {
         cutout: "80%",
         radius: "30%",
         borderColor: "rgb(0,0,0,0)",
-        borderRadius: 10,
-        rotation: 56
-    },
-    plugins:[brakeText]
+        rotation: 56,
+    }
 };
 let brakeChart = new Chart(brakeHTML, brakeConfig);
-
+// Creating the "BRAKE" text
+const brakeTextData = {
+    datasets: [{
+        data: [0, 120, 360],
+        backgroundColor: "rgb(0,0,0,0)",
+        weight: 2,
+        borderWidth: 0.5,
+        hoverOffset: 4,
+    }]
+};
+const brakeTextConfig = {
+    type: 'doughnut',
+    data: brakeTextData,
+    options: {
+        cutout: "80%",
+        radius: "30%",
+        borderColor: "rgb(0,0,0,0)",
+        rotation: 56,
+        plugins: {
+            labels: {
+                render:(chart)=>{ 
+                    if(chart.index == 1){
+                        return "BRAKE";
+                    }
+                },
+                arc: true,
+                overlap: true,
+                fontStyle: "bold",
+                fontSize: 7,
+                fontFamily: "Helvetica",
+                fontColor: "white"
+            }
+        }
+    }
+};
+let brakeTextChart = new Chart(brakeText, brakeTextConfig);
 
 // Updating data
 function updateGpsSpeed(gpsSpeed) {
     gpsSpeedHTMLValue.innerText = gpsSpeed;
-    if (gpsSpeed > 120){ // This avoids the breaking of the Chart
+    if (gpsSpeed > 120) { // This avoids the breaking of the Chart
         gpsSpeed = 120
     }
     gpsSpeed *= 2.5; // It converts the gpsSpeed to a appropriate value in the chart  (2.5 = 300 / 120)
@@ -208,24 +219,24 @@ function updateGear(gear) {
     gearHTMLValue.innerText = gear;
 }
 
-function updateThrottlePosition(throttlePosition){
+function updateThrottlePosition(throttlePosition) {
     throttleChart.data.datasets[0].data[0] = throttlePosition * 180
     throttleChart.data.datasets[0].data[1] = 180 - throttlePosition * 180
     throttleChart.update()
 }
 
-function updateBrakePressure(brakePressure){
+function updateBrakePressure(brakePressure) {
     brakeChart.data.datasets[0].data[0] = brakePressure
-    brakeChart.data.datasets[0].data[1] = 120 - brakePressure 
+    brakeChart.data.datasets[0].data[1] = 120 - brakePressure
     brakeChart.update()
 }
 
 // The handling of the received message
-function receiveSignal(json) {
-    var message = JSON.parse(json)
+function receiveSignal(message) {
+    console.log(message);
     switch (message.name) {
         case "pd01_dcu":
-            updateGpsSpeed(message.fields.gps_gpsSpeedData);
+            updateGpsSpeed(message.fields.gps_speed);
             updateRPM(message.fields.engine_rpm);
             updateGear(message.fields.gear);
             break
@@ -243,10 +254,10 @@ function receiveSignal(json) {
 
 
 //  Variables
-var WebSocket_MQTT_Broker_URL = "localhost";
-var MQTT_Client_ID = "pedrOps";
-var MQTT_Topic = "FSAE/rx";
-var MQTT_Client = "a";
+var WebSocket_MQTT_Broker_URL = "";
+var MQTT_Client_ID = "";
+var MQTT_Topic = "";
+var MQTT_Client = "";
 
 
 function mqtt_Connect_with_Broker() {
@@ -297,8 +308,8 @@ function onConnectionLost(responseObject) {
 
 // called when a message arrives
 function onMessageArrived(message) {
-    Set_New_Console_Msg("MQTT Message Received. " + " Message: " + "\"" + message.payloadString + "\"" + " MQTT Topic: " + "\"" + message.destinationName + "\"" + " QoS Value: " + "\"" + message.qos + "\"");
-    receiveSignal(message); //Updating data when a message arrives
+    Set_New_Console_Msg("MQTT Message Received. " + " Message: " + "\"" + JSON.stringify(message.payloadString) + "\"" + " MQTT Topic: " + "\"" + message.destinationName + "\"" + " QoS Value: " + "\"" + message.qos + "\"");
+    receiveSignal(message.payloadString); //Updating data when a message arrives
 }
 
 
