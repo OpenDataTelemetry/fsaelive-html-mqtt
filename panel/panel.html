@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Live HTML</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js"
+      type="text/javascript"
+    ></script>
+  </head>
+
+  <body>
+    <div class="static bg-slate-950 w-[1920px] h-[1080px]">
+      <!-- MainChart -->
+      <div
+        class="absolute top-0 left-0 bg-green-500 w-[250px] h-[250px] flex justify-center items-center"
+      >
+        <div
+          class="w-[50px] h-[50px] flex-col justify-items-center items-center pt-[4px]"
+        >
+          <p
+            class="flex justify-center text-[16px]/[14px] font-medium tracking-wide text-gray-300"
+            id="gpsSpeedValue"
+          >
+            0
+          </p>
+          <p class="flex justify-center text-[8px] font-normal text-gray-400">
+            KMH
+          </p>
+          <p
+            class="flex justify-center text-[16px]/[14px] pt-[5px] font-medium text-gray-300"
+            id="RPMValue"
+          >
+            0
+          </p>
+          <p class="flex justify-center text-[8px] font-normal text-gray-400">
+            RPM
+          </p>
+          <div
+            class="flex flex-row justify-center justify-items-center pt-[1px] items-baseline"
+          >
+            <p class="text-[8px] font-normal text-gray-400 px-0.5">GEAR</p>
+            <p
+              class="text-[14px] font-medium text-gray-300 px-0.5"
+              id="gearValue"
+            >
+              0
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="absolute top-0 left-0 bg-transparent w-[250px] h-[250px] flex justify-center items-center"
+      >
+        <canvas class="absolute" id="gpsSpeedChart"></canvas>
+      </div>
+      <div
+        class="absolute top-0 left-0 bg-transparent w-[250px] h-[250px] flex justify-center items-center"
+      >
+        <canvas class="absolute" id="throttleChart"></canvas>
+      </div>
+      <div
+        class="absolute top-0 left-0 bg-transparent w-[250px] h-[250px] flex justify-center items-center"
+      >
+        <canvas class="absolute" id="brakeChart"></canvas>
+      </div>
+    </div>
+    <hr />
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="txtAr_Console"
+          >Console:</label
+        >
+        <div class="col-sm-9">
+          <textarea
+            ype="textarea"
+            class="form-control"
+            spellcheck="false"
+            rows="12"
+            cols="100"
+            id="txtAr_Console"
+            style="background-color: transparent; color: black"
+          ></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="btn_Clear_Console"></label>
+        <div class="col-sm-4">
+          <button
+            type="button"
+            id="btn_Clear_Console"
+            class="btn btn-warning col-sm-4"
+            onclick="clear_Console();"
+          >
+            Clear Console
+          </button>
+        </div>
+      </div>
+    </form>
+  </body>
+</html>
+<script src="index.js"></script>
+<script></script>

@@ -1,0 +1,80 @@
+{ 
+  "fields": {
+      "sdl3_battery_voltage": 12.4,
+      "engine_rpm": 7000,
+      "gps_speed": 100,
+      "gear": 5
+   },
+  "name": "pd01_dcu",
+  "timestamp": 1713288706239
+}
+
+{ 
+  "fields": {
+     "engine_oil_pressure": 3.0,
+     "engine_temperature": 70,
+     "engine_intake_air_temperature": 84,
+     "engine_ecu_temperature": 4
+   },
+  "name": "pd02_dcu",
+  "timestamp": 1713288706239
+}
+
+{ 
+  "fields": {
+     "brake_pressure_front": 0,
+     "brake_pressure_rear": 80,
+     "manifold_air_pressure": 1,
+     "fuel_pressure": 3.5
+   },
+  "name": "pd03_dcu",
+  "timestamp": 1713288706239
+}
+
+
+{ 
+  "fields": {
+     "exhaust_temperature_cylinder_1": 720,
+     "exhaust_temperature_cylinder_1": 750,
+     "exhaust_temperature_cylinder_1": 700,
+     "sdl3_temperature": 27.5
+   },
+  "name": "pd04_dcu",
+  "timestamp": 1713288706239
+}
+
+
+{ 
+  "fields": {
+     "lambda_1": 0.8,
+     "acc_x": 2.5,
+     "axx_y": 2.5,
+     "acc_z": 9.8
+   },
+  "name": "pd05_dcu",
+  "timestamp": 1713288706239
+}
+
+
+{ 
+  "fields": {
+    "throttle_position": 0.8,
+    "fuel_used": 2.5,
+    "beacon": 2,
+    "gps_altitude": 770
+   },
+  "name": "pd06_dcu",
+  "timestamp": 1713288706239
+}
+
+{ 
+  "fields": {
+    "gps_latitude": -23.844756,
+    "gps_longitude": -46.23548
+   },
+  "name": "pd07_dcu",
+  "timestamp": 171328870623
+}
+
+
+
