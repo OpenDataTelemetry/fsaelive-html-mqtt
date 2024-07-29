@@ -3,7 +3,7 @@ function mqtt_Connect_with_Broker() {
     console.log("start connect")
 
     var WebSocket_MQTT_Broker_URL = "ws://mqtt.maua.br:8083/";
-    var MQTT_Client_ID = "HTML-maps";
+    var MQTT_Client_ID = gen_MQTT_Client_ID();
 
     // Set variables
     // WebSocket_MQTT_Broker_URL = document.getElementById("txt_MQTT_Broker_URL").value;
@@ -98,5 +98,5 @@ function get_Fromatted_Time() {
 
 // Randomly generate Client ID
 function gen_MQTT_Client_ID() {
-    document.getElementById("txt_MQTT_Client_ID").value = Math.floor(100000000000 + Math.random() * 900000000000);
+    return String(Math.floor(100000000 + Math.random() * 900000000));
 }
