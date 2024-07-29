@@ -61,6 +61,7 @@ function onConnectionLost(responseObject) {
 function onMessageArrived(message) {
     // Set_New_Console_Msg("MQTT Messag÷e Received. " + " Message: " + "\"" + JSON.stringify(message.payloadString) + "\"" + " MQTT Topic: " + "\"" + message.destinationName + "\"" + " QoS Value: " + "\"" + message.qos + "\"");
     Set_New_Console_Msg("MQTT Message Received. " + " Message: " + "\"" + message.payloadString + "\"" + " MQTT Topic: " + "\"" + message.destinationName + "\"" + " QoS Value: " + "\"" + message.qos + "\"");
+    console.log(message)
     // receiveSignal(message.payloadString); //Updating data when a message arrives
     receiveSignal(message); //Updating data when a message arrives
 }
@@ -104,16 +105,19 @@ function gen_MQTT_Client_ID() {
 
 // Update the position on the map
 function updatePosition(latitude, longitude){
+    console.log(latitude)
+    console.log(longitude)
     if (carPosition.position != undefined) carPosition.position.remove();
     carPosition.position = createCircles(latitude, longitude);
+    console.log(carPosition)
 }
 
 // The handling of the received message
 function receiveSignal(message) {
-    console.log(message);
-    switch (message.name) {
+    var data = JSON.parse(message.payloadString)
+    switch (data.name) {
         case "pd07_dcu":
-            updatePosition(message.fields.gps_latitude, message.fields.gps_longitude)
+            updatePosition(data.fields.gps_latitude, data.fields.gps_longitude)
             break
     }
 }
