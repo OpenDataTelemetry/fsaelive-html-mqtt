@@ -25,7 +25,7 @@
     <div class="form-group">
       <label class="col-sm-2 control-label" for="txtAr_Console">Console:</label>
       <div class="col-sm-9">
-        <textarea ype="textarea" class="form-control" spellcheck="false" rows="12" cols="100" id="txtAr_Console"
+        <textarea type="textarea" class="form-control" spellcheck="false" rows="12" cols="100" id="txtAr_Console"
           style="background-color: transparent; color: black"></textarea>
       </div>
     </div>
@@ -43,8 +43,9 @@
 
 </html>
 </body>
-<script src="index.js"></script>
+<script src="../index.js"></script>
 <script>
+  var mapName = "testMap"
   var map = L.map('map', {
     zoomControl: false,
     attributionControl: false,
@@ -52,11 +53,15 @@
     doubleClickZoom: false,
     scrollWheelZoom: false
   }).setView([-23.648380, -46.5738], 18);
-  var imageUrl = `src/testMap.png`,
+  var imageUrl = `src/${mapName}.png`,
     imageBounds = [[-23.6471483, -46.5756436], [-23.6495779, -46.57199]];
   image = L.imageOverlay(imageUrl, imageBounds, {
     interactive: false
   }).addTo(map);
+  function changeMap(mapName) {
+    imageUrl = `src/${mapName}.png`,
+      image.setUrl(imageUrl)
+  }
   const carPosition = {}
   function createCircles(lat, long) {
     var circle = L.circle([lat, long], {
@@ -68,6 +73,24 @@
     return circle;
   }
 
-</script>
+  // Update the position on the map
+  function updatePosition(latitude, longitude) {
+    console.log(latitude)
+    console.log(longitude)
+    if (carPosition.position != undefined) carPosition.position.remove();
+    carPosition.position = createCircles(latitude, longitude);
+    console.log(carPosition)
+  }
+
+  // The handling of the received message
+  function receiveSignal(message) {
+    var data = JSON.parse(message.payloadString)
+    switch (data.name) {
+      case "pd07_dcu":
+        updatePosition(data.fields.gps_latitude, data.fields.gps_longitude)
+        break
+    }
+  }</script>
+
 
 </html>
