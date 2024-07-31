@@ -24,8 +24,16 @@ function mqtt_Connect_with_Broker() {
 // Subscribe to MQTT Topic
 function mqtt_Subscribe_to_Topic() {
     console.log("start subs")
+    
     var MQTT_Topic = "OpenDataTelemetry/FSAELive/IC/MauaRacing/rx";
-
+    var url = new URL(window.location.href)
+    if(url.pathname.split("/").at(-1).startsWith("panel")){
+        var searchParams = new URLSearchParams(new URL(url).searchParams)
+        if(searchParams.has("carId")){
+            let carId = searchParams.get("carId")
+            MQTT_Topic += `/${carId}` 
+        }
+    }
     MQTT_Client.subscribe(MQTT_Topic);
     Set_New_Console_Msg("Subscribed to MQTT Topic: " + "\"" + MQTT_Topic + "\"");
     console.log("finish connect")
