@@ -19,9 +19,9 @@ const icCarsPosition = new Map()
 for (let i = 0; i < icCars.length; i++) {
     icCarsPosition.set(icCars[i][0], createCircles(colors[i], icCars[i][1]))
 }
-const elCarsPosition = new Map() 
-for (let i = 0; i < elCars.length; i++) {
-    elCarsPosition.set(elCars[i][0], createRectangles(colors[i], elCars[i][1]))
+const evCarsPosition = new Map() 
+for (let i = 0; i < evCars.length; i++) {
+    evCarsPosition.set(evCars[i][0], createRectangles(colors[i], evCars[i][1]))
 }
 
 function createPopup(teamName){
@@ -78,8 +78,8 @@ function updateRectangles(rectangle, lat, long){
 function updatePosition(latitude, longitude, topic){    
     let carType = String(topic.split("/").at(-2));
 
-    if(carType.startsWith('E') && elCarsPosition.has(topic)){
-        updateRectangles(elCarsPosition.get(carType), latitude, longitude)
+    if(carType.startsWith('E') && evCarsPosition.has(topic)){
+        updateRectangles(evCarsPosition.get(carType), latitude, longitude)
     }
     else if(icCarsPosition.has(topic)){
         updateCircles(icCarsPosition.get(carType), latitude, longitude)

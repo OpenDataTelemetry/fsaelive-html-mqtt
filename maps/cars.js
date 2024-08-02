@@ -98,7 +98,7 @@ const icCars = [
     ["48", "UFU Racing"]
 ]
 
-const elCars = [
+const evCars = [
     ["E01", "B'Energy Racing"],
     ["E02", "Ampera Racing"],
     ["E03", "Faraday E-Racing"],
