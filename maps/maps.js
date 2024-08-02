@@ -17,26 +17,48 @@ function changeMap(mapName) {
 
 const icCarsPosition = new Map()
 for (let i = 0; i < icCars.length; i++) {
-    icCarsPosition.set(icCars[i][0], createCircles(colors[i], icCars[i][1]))
+    icCarsPosition.set(icCars[i][0], [
+        createCircles(colors[i], icCars[i][1]),
+        writeCarIdText(icCars[i][0])
+    ]
+    )
 }
-const evCarsPosition = new Map() 
+const evCarsPosition = new Map()
 for (let i = 0; i < evCars.length; i++) {
-    evCarsPosition.set(evCars[i][0], createRectangles(colors[i], evCars[i][1]))
+    evCarsPosition.set(evCars[i][0], [
+        createRectangles(colors[i], evCars[i][1]),
+        writeCarIdText(evCars[i][0])
+    ]
+    )
+}
+console.log(evCarsPosition.get('EV02')[0])
+
+
+
+function createPopup(teamName) {
+    var popup = L.popup(
+        {
+            content: `<p>${teamName}</p>`,
+            closeButton: false,
+            autoClose: false,
+            autoPan: false,
+            keepInView: true,
+            minWidth: 0,
+            maxWidth: 30,
+            maxHeight: 50
+        })
+    return popup;
 }
 
-function createPopup(teamName){
-    var popup = L.popup(
-    {
-        content: `<p>${teamName}</p>`,
-        closeButton: false,
-        autoClose: false,
-        autoPan : false,
-        keepInView: true,
-        minWidth: 0,
-        maxWidth: 30,
-        maxHeight: 50
-    })
-    return popup;
+function writeCarIdText(carId) {
+    var carIdText = L.popup()
+    carIdText.setContent(`<p>${carId}</p>`);
+    carIdText.setLatLng([0, 0]);
+    return carIdText;
+}
+
+function updateCarIdText(carIdText, lat, long) {
+    // carIdText.setLanLng([lat, long])
 }
 
 function createCircles(color, teamName) {
@@ -50,9 +72,9 @@ function createCircles(color, teamName) {
     return circle;
 }
 
-function createRectangles(color, teamName){
+function createRectangles(color, teamName) {
     var popup = createPopup(teamName);
-    var rectangle = L.rectangle([[0,0],[0,0]], {
+    var rectangle = L.rectangle([[0, 0], [0, 0]], {
         color: color,
         opacity: 0.5,
         fillOpacity: 1,
@@ -63,27 +85,30 @@ function createRectangles(color, teamName){
 }
 
 
-function updateCircles(circle, lat, long){
-    circle.setLatLng([lat,long]);
+function updateCircles(circle, lat, long) {
+    circle.setLatLng([lat, long]);
 }
 
-function updateRectangles(rectangle, lat, long){
+function updateRectangles(rectangle, lat, long) {
     const rectangleSize = [0.00018, 0.0002];
-    var topLeftBound = [lat + rectangleSize[0] / 2, long - rectangleSize[1]/2];
-    var bottomRightBound = [lat - rectangleSize[0]/2, long + rectangleSize[1]/2];
+    var topLeftBound = [lat + rectangleSize[0] / 2, long - rectangleSize[1] / 2];
+    var bottomRightBound = [lat - rectangleSize[0] / 2, long + rectangleSize[1] / 2];
     rectangle.setBounds([topLeftBound, bottomRightBound]);
 }
 
 // Update the position on the map
-function updatePosition(latitude, longitude, topic){    
+function updatePosition(latitude, longitude, topic) {
     let carType = String(topic.split("/").at(-2));
-
-    if(carType.startsWith('EV') && evCarsPosition.has(topic)){
-        updateRectangles(evCarsPosition.get(carType), latitude, longitude)
+    
+    if (carType.startsWith('EV') && evCarsPosition.has(carType)) {
+        updateRectangles(evCarsPosition.get(carType)[0], latitude, longitude)
+        updateCarIdText(evCarsPosition.get(carType)[1], latitude, longitude)
     }
-    else if(carType.startsWith('IC') && icCarsPosition.has(topic)){
-        updateCircles(icCarsPosition.get(carType), latitude, longitude)
+    else if (carType.startsWith('IC') && icCarsPosition.has(carType)) {
+        updateCircles(icCarsPosition.get(carType)[0], latitude, longitude)
+        updateCarIdText(icCarsPosition.get(carType)[1], latitude, longitude)
     }
+    
 }
 
 // The handling of the received message
