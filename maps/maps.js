@@ -78,10 +78,10 @@ function updateRectangles(rectangle, lat, long){
 function updatePosition(latitude, longitude, topic){    
     let carType = String(topic.split("/").at(-2));
 
-    if(carType.startsWith('E') && evCarsPosition.has(topic)){
+    if(carType.startsWith('EV') && evCarsPosition.has(topic)){
         updateRectangles(evCarsPosition.get(carType), latitude, longitude)
     }
-    else if(icCarsPosition.has(topic)){
+    else if(carType.startsWith('IC') && icCarsPosition.has(topic)){
         updateCircles(icCarsPosition.get(carType), latitude, longitude)
     }
 }
