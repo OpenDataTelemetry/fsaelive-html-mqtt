@@ -37,10 +37,8 @@ function updatePosition(latitude, longitude){
 // The handling of the received message
 function receiveSignal(message) {
     var data = JSON.parse(message.payloadString)
-    switch (data.name) {
-        case "pd07_dcu":
-            updatePosition(data.fields.gps_latitude, data.fields.gps_longitude)
-            break
+    if (data._type == "location") {
+        updatePosition(data.lat, data.lon)
     }
 }
 
