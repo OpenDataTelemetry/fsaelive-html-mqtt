@@ -30,6 +30,13 @@ for (let i = 0; i < evCars.length; i++) {
     ])
 
 }
+const h2CarsPosition = new Map()
+for (let i = 0; i < h2Cars.length; i++){
+    h2CarsPosition.set(h2Cars[i][0], [
+        createTriangles(colors[i], h2Cars[i][1]),
+        writeCarIdText(h2Cars[i][0])
+    ])
+}
 
 
 function writeCarNameText(teamName) {
@@ -85,7 +92,13 @@ function createRectangles(color, teamName) {
 
 function createTriangles(color, teamName){
     var tooltip = writeCarNameText(teamName);
-    var triangle;
+    var triangle = L.polygon([[0,0], [0,0]], {
+        color: color,
+        opacity: 0.5,
+        fillOpacity: 1
+    }).addTo(map);
+    triangle.bindTooltip(tooltip).openTooltip();
+    return triangle;
 }
 
 
@@ -100,6 +113,14 @@ function updateRectangles(rectangle, lat, long) {
     rectangle.setBounds([topLeftBound, bottomRightBound]);
 }
 
+function updateTriangles(triangle, lat, long) {
+    const circumcircleRadius = [0.00015, 0.0002]
+    var topPoint = [lat + circumcircleRadius[0] * 3 / 2, long]
+    var leftPoint = [lat - circumcircleRadius[0] / 2, long - circumcircleRadius[1] * Math.sqrt(3) / 2]
+    var rightPoint = [lat - circumcircleRadius[0] / 2, long + circumcircleRadius[1] * Math.sqrt(3) / 2]
+    triangle.setLatLngs([topPoint, leftPoint, rightPoint])
+}
+
 // Update the position on the map
 function updatePosition(latitude, longitude, topic) {
     let carType = String(topic.split("/").at(-2));
@@ -111,6 +132,10 @@ function updatePosition(latitude, longitude, topic) {
     else if (carType.startsWith('IC') && icCarsPosition.has(carType)) {
         updateCircles(icCarsPosition.get(carType)[0], latitude, longitude)
         updateCarIdText(icCarsPosition.get(carType)[1], latitude, longitude)
+    }
+    else if(carType.startsWith('H2') && h2CarsPosition.has(carType)) {
+        updateTriangles(h2CarsPosition.get(carType)[0], latitude, longitude)
+        updateCarIdText(h2CarsPosition.get(carType)[1], latitude, longitude)
     }
 
 }
