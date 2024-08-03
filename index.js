@@ -70,7 +70,6 @@ function onConnectionLost(responseObject) {
 function onMessageArrived(message) {
     // Set_New_Console_Msg("MQTT Messag÷e Received. " + " Message: " + "\"" + JSON.stringify(message.payloadString) + "\"" + " MQTT Topic: " + "\"" + message.destinationName + "\"" + " QoS Value: " + "\"" + message.qos + "\"");
     Set_New_Console_Msg("MQTT Message Received. " + " Message: " + "\"" + message.payloadString + "\"" + " MQTT Topic: " + "\"" + message.destinationName + "\"" + " QoS Value: " + "\"" + message.qos + "\"");
-    console.log(message)
     // receiveSignal(message.payloadString); //Updating data when a message arrives
     receiveSignal(message); //Updating data when a message arrives
 }

@@ -122,4 +122,17 @@ const evCars = [
     ["EV23", "UNAM Motorsports"]
 ]
 
+const h2Cars = [
+    ["H201", "Car01"],
+    ["H202", "Car02"],
+    ["H203", "Car03"],
+    ["H204", "Car04"],
+    ["H205", "Car05"],
+    ["H206", "Car06"],
+    ["H207", "Car07"],
+    ["H208", "Car08"],
+    ["H209", "Car09"],
+    ["H210", "Car10"],
+]
+
 
