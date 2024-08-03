@@ -37,7 +37,7 @@ function writeCarNameText(teamName) {
         {
             content: `<p>${teamName}</p>`,
             permanent: true,
-            direction: "right",
+            direction: "center",
             className: "carNameText",
             opacity: 1
         })
@@ -80,6 +80,11 @@ function createRectangles(color, teamName) {
     }).addTo(map);
     rectangle.bindTooltip(tooltip).openTooltip();
     return rectangle;
+}
+
+function createTriangles(color, teamName){
+    var tooltip = writeCarNameText(teamName);
+    var triangle;
 }
 
 
