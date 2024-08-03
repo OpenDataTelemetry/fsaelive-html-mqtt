@@ -31,8 +31,6 @@ for (let i = 0; i < evCars.length; i++) {
 
 }
 
-console.log(evCarsPosition.get("EV02")[1]);
-
 
 function writeCarNameText(teamName) {
     var tooltip = L.tooltip(
@@ -40,7 +38,8 @@ function writeCarNameText(teamName) {
             content: `<p>${teamName}</p>`,
             permanent: true,
             direction: "right",
-            className: "carNameText"
+            className: "carNameText",
+            opacity: 1
         })
     return tooltip;
 }
@@ -50,7 +49,8 @@ function writeCarIdText(carId) {
         content: `<p>${carId}</p>`,
         permanent: true,
         direction: "center",
-        className: "carIdText"
+        className: "carIdText",
+        opacity: 1
     }).addTo(map);
 
     return carIdText;

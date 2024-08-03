@@ -1,23 +1,21 @@
-.leaflet-container {
-	background: transparent;
-	outline-offset: 1px;
-	}
+
 
 .leaflet-tooltip {
     position: absolute;
     padding: 6px;
+    background: none;
     background-color: transparent;
-    border: 1px solid #fff;
+    border: none;
     font-size: 10px;
-    border-radius: 3px;
-    color: #080808;
+    color: black;
+    box-shadow: none;
     white-space: nowrap;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
     pointer-events: none;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    
 }
 
 .leaflet-tooltip.leaflet-interactive {
@@ -69,7 +67,8 @@
 }
 
 .leaflet-tooltip-right {
-    margin-left: 12px;
+    margin-left: 14px;
+    
 }
 
 .leaflet-tooltip-left:before,
@@ -89,9 +88,7 @@
     margin-left: -12px;
     
 }
-.carIdText{
-    
-}
+
 .carNameText{
-    
+    font-size: 12px;
 }
