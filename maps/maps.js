@@ -20,67 +20,65 @@ for (let i = 0; i < icCars.length; i++) {
     icCarsPosition.set(icCars[i][0], [
         createCircles(colors[i], icCars[i][1]),
         writeCarIdText(icCars[i][0])
-    ]
-    )
+    ])
 }
 const evCarsPosition = new Map()
 for (let i = 0; i < evCars.length; i++) {
     evCarsPosition.set(evCars[i][0], [
         createRectangles(colors[i], evCars[i][1]),
         writeCarIdText(evCars[i][0])
-    ]
-    )
+    ])
+
 }
-console.log(evCarsPosition.get('EV02')[0])
+
+console.log(evCarsPosition.get("EV02")[1]);
 
 
-
-function createPopup(teamName) {
-    var popup = L.popup(
+function writeCarNameText(teamName) {
+    var tooltip = L.tooltip(
         {
             content: `<p>${teamName}</p>`,
-            closeButton: false,
-            autoClose: false,
-            autoPan: false,
-            keepInView: true,
-            minWidth: 0,
-            maxWidth: 30,
-            maxHeight: 50
+            permanent: true,
+            direction: "right",
+            className: "carNameText"
         })
-    return popup;
+    return tooltip;
 }
 
 function writeCarIdText(carId) {
-    var carIdText = L.popup()
-    carIdText.setContent(`<p>${carId}</p>`);
-    carIdText.setLatLng([0, 0]);
+    var carIdText = L.tooltip([0, 0], {
+        content: `<p>${carId}</p>`,
+        permanent: true,
+        direction: "center",
+        className: "carIdText"
+    }).addTo(map);
+
     return carIdText;
 }
-
-function updateCarIdText(carIdText, lat, long) {
-    // carIdText.setLanLng([lat, long])
+function updateCarIdText(carIdText, lat, long){
+    carIdText.setLatLng([lat, long])
 }
 
 function createCircles(color, teamName) {
-    var popup = createPopup(teamName);
+    var tooltip = writeCarNameText(teamName);
     var circle = L.circle([0, 0], {
         color: color,
         opacity: 0.5,
         fillOpacity: 1,
     }).addTo(map);
-    circle.bindPopup(popup).openPopup();
+    circle.bindTooltip(tooltip).openTooltip();
     return circle;
 }
 
 function createRectangles(color, teamName) {
-    var popup = createPopup(teamName);
+    var tooltip = writeCarNameText(teamName);
     var rectangle = L.rectangle([[0, 0], [0, 0]], {
         color: color,
         opacity: 0.5,
         fillOpacity: 1,
         maxWidth: 100,
     }).addTo(map);
-    rectangle.bindPopup(popup).openPopup();
+    rectangle.bindTooltip(tooltip).openTooltip();
     return rectangle;
 }
 
@@ -99,7 +97,7 @@ function updateRectangles(rectangle, lat, long) {
 // Update the position on the map
 function updatePosition(latitude, longitude, topic) {
     let carType = String(topic.split("/").at(-2));
-    
+
     if (carType.startsWith('EV') && evCarsPosition.has(carType)) {
         updateRectangles(evCarsPosition.get(carType)[0], latitude, longitude)
         updateCarIdText(evCarsPosition.get(carType)[1], latitude, longitude)
@@ -108,7 +106,7 @@ function updatePosition(latitude, longitude, topic) {
         updateCircles(icCarsPosition.get(carType)[0], latitude, longitude)
         updateCarIdText(icCarsPosition.get(carType)[1], latitude, longitude)
     }
-    
+
 }
 
 // The handling of the received message
