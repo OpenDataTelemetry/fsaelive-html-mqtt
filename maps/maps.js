@@ -65,6 +65,7 @@ function createCircles(color, teamName) {
         color: color,
         opacity: 0.5,
         fillOpacity: 1,
+        radius: 13
     }).addTo(map);
     circle.bindTooltip(tooltip).openTooltip();
     return circle;
