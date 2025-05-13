@@ -1,0 +1,27 @@
+{
+  "name": "CarDynamics",
+  "fields": {
+    "GroundSpeed": 60,
+    "GLateral": 2,
+    "GLongitudinal": 1,
+    "BrakePressure": 20
+  },
+  "tags": {
+    "deviceId": ""
+  },
+  "timestamp": 1713288706239
+}
+
+{
+  "name": "CarEngine",
+  "fields": {
+    "EngineRPM" : 7000,
+    "Gear" : "2",
+    "ThrottlePos" : 0.3,
+    "SteeringAngle" : 100
+  },
+  "tags" : {
+    "deviceId" : ""
+  },
+  "timestamp": 1713288706239
+}
