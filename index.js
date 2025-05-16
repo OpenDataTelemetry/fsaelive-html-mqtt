@@ -29,7 +29,8 @@ function mqtt_Subscribe_to_Topic() {
   console.log("start subs");
 
   // var MQTT_Topic = "OpenDataTelemetry/FSAELive/IC/MauaRacing/rx";
-  var MQTT_Topic = "OpenDataTelemetry/FSAELive/Car/Can/#";
+  // var MQTT_Topic = "OpenDataTelemetry/FSAELive/Car/Can/#";
+  var MQTT_Topic = "FSAELive/Car/Can/#";
 
   var url = new URL(window.location.href);
   if (url.pathname.split("/").at(-1).startsWith("panel")) {
