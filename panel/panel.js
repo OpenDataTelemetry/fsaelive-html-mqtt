@@ -235,13 +235,13 @@ function receiveSignal(json) {
   var message = JSON.parse(json.payloadString);
   switch (message.name) {
     case "CarDynamics":
-      updateGpsSpeed(message.fields.GroundSpeed);
-      updateBrakePressure(message.fields.BrakePressure);
+      updateGpsSpeed(message.fields.groundSpeed);
+      updateBrakePressure(message.fields.brakePressure);
       break;
     case "CarEngine":
-      updateRPM(message.fields.EngineRPM);
-      updateGear(message.fields.Gear);
-      updateThrottlePosition(message.fields.ThrottlePos);
+      updateRPM(message.fields.engineRPM);
+      updateGear(message.fields.gear);
+      updateThrottlePosition(message.fields.throttlePos);
       break;
   }
 }
