@@ -233,7 +233,7 @@ function updateBrakePressure(brakePressure) {
 function receiveSignal(json) {
   console.log(`JSON Payload String: ${json.payloadString}`);
   var message = JSON.parse(json.payloadString);
-  switch (message.name) {
+  switch (message.tags.message) {  
     case "CarDynamics":
       updateGpsSpeed(message.fields.groundSpeed);
       updateBrakePressure(message.fields.brakePressure);
