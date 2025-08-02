@@ -204,10 +204,11 @@ function updateRPM(rpm) {
 }
 
 function updateGear(gear) {
-  gearHTMLValue.innerText = gear;
+  gearHTMLValue.innerText = gear - 1;
 }
 
 function updateThrottlePosition(throttlePosition) {
+  throttlePosition = throttlePosition /100
   if (throttlePosition > 1) {
     // This avoids the breaking of the Chart
     throttlePosition = 1;
@@ -219,6 +220,7 @@ function updateThrottlePosition(throttlePosition) {
 }
 
 function updateBrakePressure(brakePressure) {
+  brakePressure = brakePressure / 2000 *80
   if (brakePressure > 80) {
     // This avoids the breaking of the Chart
     brakePressure = 80;
@@ -233,15 +235,15 @@ function updateBrakePressure(brakePressure) {
 function receiveSignal(json) {
   console.log(`JSON Payload String: ${json.payloadString}`);
   var message = JSON.parse(json.payloadString);
-  switch (message.tags.message) {  
-    case "CarDynamics":
+  switch (message.tags.canId) {  
+    case "5":
       updateGpsSpeed(message.fields.groundSpeed);
-      updateBrakePressure(message.fields.brakePressure);
-      break;
-    case "CarEngine":
-      updateRPM(message.fields.engineRPM);
       updateGear(message.fields.gear);
-      updateThrottlePosition(message.fields.throttlePos);
+      updateThrottlePosition(message.fields.throttlePosition);
+      updateBrakePressure(message.fields.brakePressureFront);
+      break;
+    case "6":
+      updateRPM(message.fields.engineRPM);
       break;
   }
 }

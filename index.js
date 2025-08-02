@@ -30,14 +30,14 @@ function mqtt_Subscribe_to_Topic() {
 
   // var MQTT_Topic = "OpenDataTelemetry/FSAELive/IC/MauaRacing/rx";
   // var MQTT_Topic = "OpenDataTelemetry/FSAELive/Car/Can/#";
-  var MQTT_Topic = "FSAELive/Car/Can/#";
+  var MQTT_Topic = "FSAELive/Car/Can/mauaracing/up/sim7670g";
 
   var url = new URL(window.location.href);
   if (url.pathname.split("/").at(-1).startsWith("panel")) {
     var searchParams = new URLSearchParams(new URL(url).searchParams);
-    if (searchParams.has("carId")) {
-      let carId = searchParams.get("carId");
-      MQTT_Topic += `/${carId}`;
+    if (searchParams.has("canId")) {
+      let canId = searchParams.get("canId");
+      MQTT_Topic += `/${canId}`;
     }
   }
   MQTT_Client.subscribe(MQTT_Topic);
